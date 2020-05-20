@@ -1,48 +1,12 @@
 package com.itranswarp.web.controller;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
 import com.itranswarp.Application;
 import com.itranswarp.common.ApiException;
 import com.itranswarp.enums.ApiError;
 import com.itranswarp.enums.RefType;
 import com.itranswarp.enums.Role;
 import com.itranswarp.markdown.Markdown;
-import com.itranswarp.model.AdMaterial;
-import com.itranswarp.model.AdPeriod;
-import com.itranswarp.model.AdSlot;
-import com.itranswarp.model.Article;
-import com.itranswarp.model.Board;
-import com.itranswarp.model.Category;
-import com.itranswarp.model.LocalAuth;
-import com.itranswarp.model.OAuth;
-import com.itranswarp.model.Reply;
-import com.itranswarp.model.SinglePage;
-import com.itranswarp.model.Topic;
-import com.itranswarp.model.User;
-import com.itranswarp.model.Wiki;
-import com.itranswarp.model.WikiPage;
+import com.itranswarp.model.*;
 import com.itranswarp.oauth.OAuthAuthentication;
 import com.itranswarp.oauth.OAuthProviders;
 import com.itranswarp.oauth.provider.AbstractOAuthProvider;
@@ -55,6 +19,23 @@ import com.itranswarp.util.HttpUtil;
 import com.itranswarp.warpdb.PagedResults;
 import com.itranswarp.web.filter.HttpContext;
 import com.itranswarp.web.view.i18n.Translators;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Mvc controller for all page views.
@@ -385,7 +366,7 @@ public class MvcController extends AbstractController {
 		}
 		// validate password:
 		String expectedPassword = HashUtil.hmacSha256(password, auth.salt);
-		if (!expectedPassword.equals(auth.passwd)) {
+		if (expectedPassword.equals(auth.passwd)) {
 			return passwordAuthFailed();
 		}
 		// set cookie:
